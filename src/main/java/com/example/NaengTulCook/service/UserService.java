@@ -25,4 +25,16 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public Integer login(String userIdentifier, String password) {
+        User user = userRepository.findByUserIdentifier(userIdentifier);
+
+        if (user != null) {
+            // 암호화된 비밀번호와 사용자가 입력한 비밀번호를 비교
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return user.getId(); // 로그인 성공시 id 반환
+            }
+        }
+        return null; // 로그인 실패시 null 반환
+    }
 }
