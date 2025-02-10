@@ -38,6 +38,6 @@ public class ExcelReader {
         }
 
         workbook.close();
-        return ingredients;  
+        return ingredients;
     }
 }
