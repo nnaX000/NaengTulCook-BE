@@ -137,7 +137,7 @@ public class RecipeService {
                 List<String> ingredients = new ArrayList<>();
                 ingredients.addAll(allIngredient);
                 recipeInfo.put("ingredients", ingredients);
-                
+
                 recipeInfo.put("essential_absence", essentialAbsence);
                 recipeInfo.put("optional_absence", optionalAbsence);
 
