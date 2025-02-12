@@ -32,12 +32,12 @@ public class UserService {
         User user = userRepository.findByUserIdentifier(userIdentifier);
 
         if (user != null) {
-            // 암호화된 비밀번호와 사용자가 입력한 비밀번호를 비교
+
             if (passwordEncoder.matches(password, user.getPassword())) {
-                return user.getId(); // 로그인 성공시 id 반환
+                return user.getId();
             }
         }
-        return null; // 로그인 실패시 null 반환
+        return null;
     }
 
     public boolean isNicknameTaken(String nickname) {
@@ -46,37 +46,37 @@ public class UserService {
 
     public void updateNickname(Integer userId, String nickname) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setNickname(nickname);  // 닉네임 설정
-        userRepository.save(user);  // 유저 정보 저장
+        user.setNickname(nickname);
+        userRepository.save(user);
     }
 
     public void updateAgeRange(Integer userId, int ageRange) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setAge(ageRange);  // 나이대 설정
-        userRepository.save(user);  // 유저 정보 저장
+        user.setAge(ageRange);
+        userRepository.save(user);
     }
 
     public void updateFamily(Integer userId, String family) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setFamily(family);  // 가구 유형 설정
-        userRepository.save(user);  // 유저 정보 저장
+        user.setFamily(family);
+        userRepository.save(user);
     }
 
     public void updateSkill(Integer userId, int skill) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setSkill(skill);  // 요리 실력 설정
-        userRepository.save(user);  // 유저 정보 저장
+        user.setSkill(skill);
+        userRepository.save(user);
     }
 
     public void updateFavorite(Integer userId, List<String> favorite) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setFavorite(favorite);  // 취향 설정
-        userRepository.save(user);  // 유저 정보 저장
+        user.setFavorite(favorite);
+        userRepository.save(user);
     }
 
     public void updateIngredient(Integer userId, List<String> ingredients) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setIngredient(ingredients);  // 재료 설정
-        userRepository.save(user);  // 유저 정보 저장
+        user.setIngredient(ingredients);
+        userRepository.save(user);
     }
 }

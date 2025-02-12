@@ -25,7 +25,6 @@ public class User {
     @ElementCollection
     private List<String> ingredient;
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
