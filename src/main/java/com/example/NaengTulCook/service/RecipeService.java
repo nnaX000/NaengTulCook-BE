@@ -148,4 +148,6 @@ public class RecipeService {
         Collections.shuffle(recommendedRecipes);
         return recommendedRecipes.stream().limit(5).collect(Collectors.toList());
     }
+
+
 }

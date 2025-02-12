@@ -51,14 +51,11 @@ public class IngredientService {
     }
 
     public List<Ingredient> getAllIngredientsSorted() {
-        return ingredientRepository.findAllByOrderByNameAsc();  // 가나다 순으로 정렬된 전체 재료
+        return ingredientRepository.findAllByOrderByNameAsc();
     }
 
     public List<Ingredient> getIngredientsByCategorySorted(String category) {
-        // category에서 공백을 제거하고, 대소문자 구분 없이 검색
-        System.out.println("Category received: " + category);  // 디버깅 로그
-        category = category.trim(); // 공백 제거
-        System.out.println("Category received 보정: " + category);  // 디버깅 로그
+        category = category.trim();
         return ingredientRepository.findByCategoryIgnoreCaseOrderByNameAsc(category);
     }
 
