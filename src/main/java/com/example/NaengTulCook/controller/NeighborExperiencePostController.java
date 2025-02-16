@@ -1,50 +1,33 @@
 package com.example.NaengTulCook.controller;
 
+import com.example.NaengTulCook.dto.NeighborExperiencePostDTO;
 import com.example.NaengTulCook.entity.NeighborExperiencePost;
 import com.example.NaengTulCook.service.NeighborExperiencePostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/neighbor-experience/posts")
+@RequestMapping("/api/neighbor-experience/posts")
 public class NeighborExperiencePostController {
 
     private final NeighborExperiencePostService postService;
 
-    // ✅ Lombok 없이 생성자 추가
     public NeighborExperiencePostController(NeighborExperiencePostService postService) {
         this.postService = postService;
     }
 
-    /**
-     * 📌 최신 게시글 목록 조회 (무한 스크롤 적용)
-     * - 최신순으로 정렬하여 size만큼 가져오기
-     */
-    @GetMapping
-    public ResponseEntity<List<NeighborExperiencePost>> getPosts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) { // ✅ 기본값: 10개씩 조회
-        List<NeighborExperiencePost> posts = postService.getPosts(page, size);
-        return ResponseEntity.ok(posts);
-    }
-
-    /**
-     * 📌 특정 게시글 조회 (게시글 목록에서 클릭 시 상세 정보 조회)
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<NeighborExperiencePost> getPostById(@PathVariable Long id) {
-        NeighborExperiencePost post = postService.getPostById(id);
-        return ResponseEntity.ok(post);
-    }
-
-    /**
-     * 📌 새 게시글 작성 (ERD에 맞게 필드 수정)
-     */
+    @Operation(summary = "게시글 등록", description = "새로운 이웃 경험 공유 게시글을 등록합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "게시글이 성공적으로 등록되었습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
+            @ApiResponse(responseCode = "500", description = "서버 오류입니다.")
+    })
     @PostMapping
-    public ResponseEntity<NeighborExperiencePost> createPost(@RequestBody NeighborExperiencePost post) {
-        NeighborExperiencePost savedPost = postService.createPost(post);
-        return ResponseEntity.ok(savedPost);
+    public ResponseEntity<NeighborExperiencePost> createPost(@RequestBody NeighborExperiencePostDTO dto) {
+        NeighborExperiencePost savedPost = postService.createPost(dto);
+        return ResponseEntity.status(201).body(savedPost);
     }
 }

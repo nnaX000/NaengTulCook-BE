@@ -1,56 +1,82 @@
 package com.example.NaengTulCook.entity;
+
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "neighbor_experience_post")
-@Getter
-@Setter
-@NoArgsConstructor
-
 public class NeighborExperiencePost {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id; // 게시글 ID(고유값)
-
-    @ManyToOne(fetch = FetchType.LAZY) // 다대일 관계: 여러 개의 게시글이 하나의 유저를 참조
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user; // 작성자 정보 (User entity)
-
-    @Column(nullable = false) //NOT NULL 제약 조건 추가
-    private String title; // 게시글 제목
-
-    @Column(columnDefinition = "TEXT", nullable = false) // 본문 긴 문자열 허용
-    private String content; // 게시글 내용
+    private int id;
 
     @Column(nullable = false)
-    private int likeCount = 0; // 좋아요 수
+    private int userId;  // Foreign Key, User 테이블 참조
 
     @Column(nullable = false)
-    private int viewCount = 0; // 조회수
+    private String title;
 
-    @Column(length = 255)
-    private String picture; // 이미지 URL
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String content;
 
-    // 게시글 등록 (생성자)
-    public NeighborExperiencePost(User user, String title, String content, String picture) {
-        this.user = user;
+    @Column(nullable = false)
+    private int likeCount = 0;  // 기본값 0
+
+    @Column(nullable = false)
+    private int viewCount = 0;  // 기본값 0
+
+    // 기본 생성자
+    public NeighborExperiencePost() {}
+
+    // 생성자
+    public NeighborExperiencePost(int userId, String title, String content) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
-        this.picture = picture;
-        this.likeCount = 0;
-        this.viewCount = 0;
     }
 
-    // 조회수 증가 메서드
-    public void incrementViewCount() {
-        this.viewCount++;
+    // Getter & Setter
+    public int getId() {
+        return id;
     }
 
-    // 좋아요 증가 메서드
-    public void incrementLikeCount() {
-        this.likeCount++;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
