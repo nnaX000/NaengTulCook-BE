@@ -1,6 +1,8 @@
 package com.example.NaengTulCook.controller;
 
 import com.example.NaengTulCook.dto.UserSignUpRequest;
+import com.example.NaengTulCook.entity.User;
+import com.example.NaengTulCook.repository.UserRepository;
 import com.example.NaengTulCook.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,7 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,6 +25,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Operation(summary = "회원가입", description = "Create a new user and register them to the system")
     @ApiResponses(value = {
@@ -41,10 +47,11 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "로그인 성공시에 user id를 반환한다.(앞으로 포함해야하는 id값)",
+                    description = "로그인 성공 시 userId 및 nicknameExists 반환",
                     content = @Content(
-                            schema = @Schema(implementation = Integer.class),
-                            examples = @ExampleObject(value = "1") // 성공적인 로그인 예시값 (userId)
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Map.class),
+                            examples = @ExampleObject(value = "{ \"userId\": 1, \"nicknameExists\": true }")
                     )
             ),
             @ApiResponse(
@@ -52,7 +59,7 @@ public class UserController {
                     description = "Invalid login credentials",
                     content = @Content(
                             schema = @Schema(implementation = String.class),
-                            examples = @ExampleObject(value = "\"Invalid credentials\"") // 로그인 실패 예시값
+                            examples = @ExampleObject(value = "\"Invalid credentials\"")
                     )
             ),
             @ApiResponse(
@@ -60,7 +67,7 @@ public class UserController {
                     description = "Internal server error",
                     content = @Content(
                             schema = @Schema(implementation = String.class),
-                            examples = @ExampleObject(value = "\"Internal server error\"") // 서버 오류 예시값
+                            examples = @ExampleObject(value = "\"Internal server error\"")
                     )
             )
     })
@@ -69,9 +76,16 @@ public class UserController {
         Integer userId = userService.login(request.getUserIdentifier(), request.getPassword());
 
         if (userId != null) {
-            return new ResponseEntity<>(userId, HttpStatus.OK); // 로그인 성공, 유저 id 반환
+            User user = userRepository.findUsersById(userId);
+            boolean nicknameExists = user.getNickname() != null;
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", userId);
+            response.put("nicknameExists", nicknameExists);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Invalid credentials", HttpStatus.BAD_REQUEST); // 로그인 실패
+            return new ResponseEntity<>("Invalid credentials", HttpStatus.BAD_REQUEST);
         }
     }
 
