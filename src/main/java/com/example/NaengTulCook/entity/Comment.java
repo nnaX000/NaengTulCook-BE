@@ -31,4 +31,14 @@ public class Comment {
     public User getUser() { return user; }
     public NeighborExperiencePost getPost() { return post; }
     public String getContent() { return content; }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", user=" + (user != null ? user.getNickname() : "null") +
+                ", postId=" + (post != null ? post.getId() : "null") +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

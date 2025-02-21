@@ -9,18 +9,18 @@ import com.example.NaengTulCook.entity.Comment;
 public class CommentDTO {
     private int id;
     private int userId;
-    private String username;
+    private String nickname;
     private String content;
 
     public CommentDTO(Comment comment) {
         this.id = comment.getId();
         this.userId = comment.getUser().getId();
-        this.username = comment.getUser().getNickname();  // 닉네임 추가
+        this.nickname = comment.getUser().getNickname();  // 닉네임 추가
         this.content = comment.getContent();
     }
 
     public int getId() { return id; }
     public int getUserId() { return userId; }
-    public String getUsername() { return username; } // 닉네임 반환
+    public String getNickname() { return nickname; } // 닉네임 반환
     public String getContent() { return content; }
 }
