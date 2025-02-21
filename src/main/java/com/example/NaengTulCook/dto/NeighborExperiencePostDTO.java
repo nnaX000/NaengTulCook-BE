@@ -74,4 +74,8 @@ public class NeighborExperiencePostDTO {
     public String getCreatedAt() {
         return createdAt;
     }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
 }

@@ -20,7 +20,7 @@ public class NeighborExperiencePost {
     private String content;
     private int likeCount = 0;
     private int viewCount = 0;
-//    private LocalDateTime createdAt = LocalDateTime.now();
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
