@@ -166,9 +166,13 @@ public class NeighborExperiencePostService {
         Optional<PostLike> existingLike = postLikeRepository.findByUserAndPost(user, post);
         if (existingLike.isPresent()) {
             postLikeRepository.delete(existingLike.get()); // 좋아요 취소
+            post.decreaseLikeCount();
+            postRepository.save(post);
             return false;
         } else {
             postLikeRepository.save(new PostLike(user, post, true));
+            post.increaseLikeCount();
+            postRepository.save(post);
             return true;
         }
     }
