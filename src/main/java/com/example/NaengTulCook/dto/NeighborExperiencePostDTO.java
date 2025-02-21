@@ -1,42 +1,66 @@
 package com.example.NaengTulCook.dto;
 
+import com.example.NaengTulCook.entity.NeighborExperiencePost;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+
 public class NeighborExperiencePostDTO {
+    private int id;
     private int userId;
+    private String nickname;
     private String title;
     private String content;
+    private int likeCount;
+    private int viewCount;
+    private boolean isLiked;
 
-    // 기본 생성자
-    public NeighborExperiencePostDTO() {}
-
-    // 생성자
-    public NeighborExperiencePostDTO(int userId, String title, String content) {
-        this.userId = userId;
-        this.title = title;
-        this.content = content;
+    private List<CommentDTO> comments;
+    public NeighborExperiencePostDTO() {
     }
 
-    // Getter & Setter
+    // ✅ 최신순/인기순 조회용 (댓글 제외)
+    public NeighborExperiencePostDTO(NeighborExperiencePost post, boolean isLiked) {
+        this.id = post.getId();
+        this.userId = post.getUser().getId();
+        this.nickname = post.getUser().getNickname();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.likeCount = post.getLikeCount();
+        this.viewCount = post.getViewCount();
+        this.isLiked = isLiked;
+
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public int getLikeCount() {
+        return likeCount;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
     }
 }
