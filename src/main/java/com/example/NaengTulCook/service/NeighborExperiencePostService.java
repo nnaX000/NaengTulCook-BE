@@ -82,7 +82,8 @@ public class NeighborExperiencePostService {
 
         // 저장 후 DTO로 변환하여 반환
         NeighborExperiencePost savedPost = postRepository.save(post);
-        return new NeighborExperiencePostDTO(savedPost, false);
+        int commentCount = commentRepository.countByPostId(post.getId());
+        return new NeighborExperiencePostDTO(savedPost, false, commentCount);
     }
 //    /**
 //     * 최신순 게시글 조회 (createdAt 기준 내림차순)
@@ -109,7 +110,8 @@ public class NeighborExperiencePostService {
         return postRepository.findAllByOrderByCreatedAtDesc().stream()
                 .map(post -> {
                     boolean isLiked = postLikeRepository.existsByUserIdAndPostId(userId, post.getId());
-                    return new NeighborExperiencePostDTO(post, isLiked);
+                    int commentCount = commentRepository.countByPostId(post.getId());
+                    return new NeighborExperiencePostDTO(post, isLiked, commentCount);
                 })
                 .collect(Collectors.toList());
     }
@@ -121,7 +123,8 @@ public class NeighborExperiencePostService {
         return postRepository.findAllByOrderByLikeCountDesc().stream()
                 .map(post -> {
                     boolean isLiked = postLikeRepository.existsByUserIdAndPostId(userId, post.getId());
-                    return new NeighborExperiencePostDTO(post, isLiked);
+                    int commentCount = commentRepository.countByPostId(post.getId());
+                    return new NeighborExperiencePostDTO(post, isLiked, commentCount);
                 })
                 .collect(Collectors.toList());
     }
@@ -135,7 +138,9 @@ public class NeighborExperiencePostService {
 
         boolean isLiked = postLikeRepository.existsByUserIdAndPostId(userId, postId);
 
-        return new NeighborExperiencePostDetailDTO(post, isLiked);
+        int commentCount = commentRepository.countByPostId(postId);
+
+        return new NeighborExperiencePostDetailDTO(post, isLiked, commentCount);
     }
 
     /**
