@@ -38,7 +38,8 @@ public class Comment {
                 "id=" + id +
                 ", user=" + (user != null ? user.getNickname() : "null") +
                 ", postId=" + (post != null ? post.getId() : "null") +
-                ", content='" + content + '\'' +
+                ", content='" + content +
                 '}';
+
     }
 }

@@ -20,7 +20,14 @@ public class NeighborExperiencePost {
     private String content;
     private int likeCount = 0;
     private int viewCount = 0;
-    private LocalDateTime createdAt = LocalDateTime.now();
+//    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 
     // ✅ 댓글 리스트 추가 (이 게시글에 달린 댓글들)
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
