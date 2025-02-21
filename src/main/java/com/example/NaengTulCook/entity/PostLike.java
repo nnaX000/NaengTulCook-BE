@@ -25,7 +25,7 @@ public class PostLike {
     public PostLike(User user, NeighborExperiencePost post, boolean isLiked) {
         this.user = user;
         this.post = post;
-        this.isLiked = isLiked;
+        this.isLiked = false;
     }
 
     public int getId() { return id; }
