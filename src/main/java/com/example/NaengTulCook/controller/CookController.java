@@ -220,10 +220,50 @@ public class CookController {
         }
     }
 
-
-    // List<String>을 실제 줄바꿈이 있는 문자열로 변환하는 메서드
     private String joinWithNewLine(List<String> list) {
-        return String.join("\n", list);  // List<String>을 줄바꿈으로 구분하여 하나의 문자열로 결합
+        return String.join("\n", list);
     }
+
+    @Operation(
+            summary = "유저 필터 조회",
+            description = "userId를 이용해 해당 유저의 최근 필터 설정을 조회합니다. 만약 특정 유저에 대한 필터 데이터가 없다면 200ok는 뜨지만 body에 null을 반환합니다.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "성공적으로 필터 정보를 반환",
+                            content = @Content(schema = @Schema(
+                                    example = "{\n" +
+                                            "    \"filter3Level\": \"중급\",\n" +
+                                            "    \"filter2Time\": \"10분 이하\",\n" +
+                                            "    \"filter5Diet\": \"케토\",\n" +
+                                            "    \"filter6Calorie\": \"저칼로리\",\n" +
+                                            "    \"filter4Flavor\": \"짭짤한,달달한\",\n" +
+                                            "    \"filter1Except\": \"당근,양파\"\n" +
+                                            "}"
+                            ))
+                    ),
+            }
+    )
+    @GetMapping("/user-filter")
+    ResponseEntity<?> getUserFilters(@RequestParam int userId) {
+        Optional<Cook> cookOptional = cookRepository.findTopByUserIdOrderByIdDesc(userId);
+
+        if (cookOptional.isEmpty()) {
+            return ResponseEntity.ok(null);
+        }
+
+        Cook cook = cookOptional.get();
+        
+        Map<String, String> filters = Map.of(
+                "filter1Except", cook.getFilter1Except(),
+                "filter2Time", cook.getFilter2Time(),
+                "filter3Level", cook.getFilter3Level(),
+                "filter4Flavor", cook.getFilter4Flavor(),
+                "filter5Diet", cook.getFilter5Diet(),
+                "filter6Calorie", cook.getFilter6Calorie()
+        );
+
+        return ResponseEntity.ok(filters);
+    }
+
 }
+
 
