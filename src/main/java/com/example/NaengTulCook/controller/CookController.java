@@ -251,7 +251,7 @@ public class CookController {
         }
 
         Cook cook = cookOptional.get();
-        
+
         Map<String, String> filters = Map.of(
                 "filter1Except", cook.getFilter1Except(),
                 "filter2Time", cook.getFilter2Time(),
