@@ -16,7 +16,7 @@ public class CommentDTO {
         this.id = comment.getId();
         this.userId = comment.getUser().getId();
         this.nickname = comment.getUser().getNickname();  // 닉네임 추가
-//        this.content = comment.getContent();
+        this.content = comment.getContent();
         this.content = comment.getContent().replaceAll("^\"|\"$", "");
     }
 

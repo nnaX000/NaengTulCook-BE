@@ -17,10 +17,7 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-//    public List<CommentDTO> getCommentsByPostId(int postId) {
-//        List<Comment> comments = commentRepository.findByPostId(postId);
-//        return comments.stream().map(CommentDTO::new).collect(Collectors.toList());
-//    }
+
     public List<CommentDTO> getCommentsByPostId(int postId) {
         return commentRepository.findByPostIdWithUser(postId).stream()
                 .map(CommentDTO::new)
