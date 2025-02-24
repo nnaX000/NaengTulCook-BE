@@ -85,23 +85,7 @@ public class NeighborExperiencePostService {
         int commentCount = commentRepository.countByPostId(post.getId());
         return new NeighborExperiencePostDTO(savedPost, false, commentCount);
     }
-//    /**
-//     * 최신순 게시글 조회 (createdAt 기준 내림차순)
-//     */
-//    public List<NeighborExperiencePostDTO> getPostsSortedByLatest() {
-//        return postRepository.findAllByOrderByCreatedAtDesc().stream()
-//                .map(NeighborExperiencePostDTO::new)
-//                .collect(Collectors.toList());
-//    }
-//
-//    /**
-//     * 인기순 게시글 조회 (likeCount 기준 내림차순)
-//     */
-//    public List<NeighborExperiencePostDTO> getPostsSortedByLikes() {
-//        return postRepository.findAllByOrderByLikeCountDesc().stream()
-//                .map(NeighborExperiencePostDTO::new)
-//                .collect(Collectors.toList());
-//    }
+
 
     /**
      * 최신순 게시글 조회 (createdAt 기준 내림차순) + isLiked 포함 (댓글 제외)
@@ -182,3 +166,21 @@ public class NeighborExperiencePostService {
         }
     }
 }
+
+//    /**
+//     * 최신순 게시글 조회 (createdAt 기준 내림차순)
+//     */
+//    public List<NeighborExperiencePostDTO> getPostsSortedByLatest() {
+//        return postRepository.findAllByOrderByCreatedAtDesc().stream()
+//                .map(NeighborExperiencePostDTO::new)
+//                .collect(Collectors.toList());
+//    }
+//
+//    /**
+//     * 인기순 게시글 조회 (likeCount 기준 내림차순)
+//     */
+//    public List<NeighborExperiencePostDTO> getPostsSortedByLikes() {
+//        return postRepository.findAllByOrderByLikeCountDesc().stream()
+//                .map(NeighborExperiencePostDTO::new)
+//                .collect(Collectors.toList());
+//    }
